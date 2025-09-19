@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-UltraLight.otf");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-ExtraLight.otf");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-Light.otf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-Regular.otf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-Bold.otf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Trivial";
+  src: url("/fonts/Trivial-Heavy.otf");
+  font-weight: 900;
+}
+
+@theme {
+  --font-trivial: "Trivial", sans-serif;
+
+  --animate-fade-in: fade-in 1s ease-in-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  --animate-slide-down: slide-down 1s forwards;
+  @keyframes slide-down {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  --animate-shift: shift 0.15s linear infinite both;
+  @keyframes shift {
+    0% {
+      transform: translateX(10%) translateY(10%);
+    }
+    100% {
+      transform: translateX(-10%) translateY(-10%);
+    }
+  }
+}
+
+/* Animations */
+.hero-text:nth-child(2) {
+  animation-delay: 40ms;
+}
+.hero-text:nth-child(3) {
+  animation-delay: 80ms;
+}
+.hero-text:nth-child(4) {
+  animation-delay: 120ms;
+}
+.hero-text:nth-child(5) {
+  animation-delay: 160ms;
+}
+
+/* Background image */
+.animated-background {
+  background-image: url("/images/noise.png");
+  opacity: 0.125;
+}
