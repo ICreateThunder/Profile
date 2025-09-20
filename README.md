@@ -1,4 +1,4 @@
-# 🚀 Robert Shalders – Personal Portfolio & Blog                                                                                                                                                                                                              id])->flush()`). |
+# 🚀 Robert Shalders – Personal Portfolio Blog
 
 A minimal, fully‑static website built with **AstroJS** and deployed to **AWS S3** (Static Website Hosting).
 Open‑source and ready for local dev / CI‑deploy.
