@@ -9,9 +9,9 @@ import Head from "../components/Head.astro";
     description="Robert is a seasoned technologist, with experience in low-level high-performance software development (C/C++) to highly-available robust cloud architectures."
   />
   <main class="h-screen min-h-[512px] p-12 relative overflow-hidden">
-    <div class="flex h-full w-full border-4">
+    <div class="flex flex-col-reverse lg:flex-row h-full w-full border-4">
       <div class="flex flex-col animate-fade-in p-8 justify-between">
-        <div class="flex flex-col select-none">
+        <div class="flex flex-col select-none collapse lg:visible">
           <span
             class="text-3xl lg:text-6xl font-thin motion-safe:animate-slide-down hero-text"
             >Status</span
@@ -58,7 +58,7 @@ import Head from "../components/Head.astro";
           >
         </div>
       </div>
-      <div class="flex flex-col gap-y-8 justify-center items-center w-full">
+      <div class="flex flex-col gap-y-8 justify-center items-center w-full p-4 lg:p-0 mb-16 lg:m-9">
         <div class="flex flex-col justify-center items-center gap-y-4">
           <p>
             <span class="text-3xl font-light"
