@@ -6,6 +6,7 @@ import Head from "../components/Head.astro";
 <BaseLayout>
   <Head
     title="Robert Shalders - Technologist"
+    siteName="Robert Shalders Personal Site"
     description="Robert is a seasoned technologist, with experience in low-level high-performance software development (C/C++) to highly-available robust cloud architectures."
   />
   <main class="h-screen min-h-[512px] p-12 relative overflow-hidden">
@@ -44,7 +45,7 @@ import Head from "../components/Head.astro";
             >Profile</a
           >
           <a
-            href="/blog"
+            href="/articles"
             class="text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white align-middle"
             >Articles</a
           >
@@ -58,7 +59,9 @@ import Head from "../components/Head.astro";
           >
         </div>
       </div>
-      <div class="flex flex-col gap-y-8 justify-center items-center w-full p-4 lg:p-0 mb-16 lg:m-9">
+      <div
+        class="flex flex-col gap-y-8 justify-center items-center w-full p-4 lg:p-0 mb-16 lg:m-9"
+      >
         <div class="flex flex-col justify-center items-center gap-y-4">
           <p>
             <span class="text-3xl font-light"
@@ -71,6 +74,7 @@ import Head from "../components/Head.astro";
         </div>
         <div class="flex gap-8 py-12">
           <a
+            aria-label="Link to Robert Shalders' GitHub"
             class="p-2"
             href="https://github.com/ICreateThunder"
             target="_blank"
@@ -89,6 +93,7 @@ import Head from "../components/Head.astro";
             </svg>
           </a>
           <a
+            aria-label="Link to Robert Shalders on LinkedIn"
             class="p-2"
             href="https://www.linkedin.com/in/robertshalders/"
             target="_blank"
