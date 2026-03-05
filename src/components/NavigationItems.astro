@@ -1,0 +1,67 @@
+---
+import { Icon } from "astro-icon/components";
+
+// Static navigation items
+const pages: NavigationLink[] = [
+  {
+    url: "/",
+    resource: "home",
+    name: "Home",
+    icon: "lsicon:house-outline",
+  },
+  {
+    url: "/profile",
+    resource: "profile",
+    name: "Profile",
+    icon: "lsicon:user-outline",
+  },
+  {
+    url: "/articles",
+    resource: "articles",
+    name: "Articles",
+    icon: "lsicon:report-outline",
+  },
+];
+
+// Parse URL -> slugs
+const slugs: RegExpMatchArray | [] = Astro.url.pathname.match(/[^\/]+/g) ?? [];
+
+// Parse resource (first slug)
+const resource = slugs[0] ?? "home";
+
+// Build navigation items list
+let items = pages.filter(({ resource: res }) => res !== resource);
+---
+
+<nav class="flex md:flex-col justify-evenly">
+  <!-- Mobile -->
+  {
+    items.map(({ url: href, icon: name, name: content }) => (
+      <a
+        {href}
+        class="flex flex-col justify-center items-center md:hidden w-full"
+      >
+        <Icon {name} width="32" height="32" />
+        <span>{content}</span>
+      </a>
+    ))
+  }
+
+  <!-- Desktop -->
+  {
+    items.map(({ url: href, name }: NavigationLink) => (
+      <a
+        {href}
+        class="hidden text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white align-middle md:block"
+      >
+        {name}
+      </a>
+    ))
+  }
+
+  <span
+    class="hidden md:block text-slate-400 text-xs select-none lg:whitespace-nowrap"
+  >
+    © Robert Shalders, 2025
+  </span>
+</nav>
