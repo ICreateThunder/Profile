@@ -1,48 +1,106 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NoSeoHead from "../components/NoSeoHead.astro";
+import Navigation from "../components/Navigation.astro";
+import Drawer from "../components/Drawer.astro";
+import { getCollection } from "astro:content";
+import { mostRecentArticles, roundRobin } from "../utils/articles";
+import type { ArticleEntry } from "../content.config";
+
+const projects = mostRecentArticles(await getCollection("projects"));
+const resources = mostRecentArticles(await getCollection("resources"));
+const tricks = mostRecentArticles(await getCollection("tricks"));
+
+const articles: ArticleEntry[] = roundRobin(projects, resources, tricks);
 ---
 
 <BaseLayout>
-  <NoSeoHead title="Articles" description="Learn a little more..." />
-  <main class="h-screen min-h-[512px] p-12 relative overflow-hidden">
+  <NoSeoHead
+    slot="head"
+    title="Articles"
+    description="Collection of articles which may inspire, cause despair or simply have no effect..."
+  />
+  <main class="h-svh min-h-128 md:p-12 p-8 relative overflow-hidden">
     <div class="flex flex-col-reverse lg:flex-row h-full w-full border-4">
-      <div class="flex flex-col animate-fade-in p-8 justify-end">
-        <div class="flex flex-col space-y-2">
-          <a
-            href="/"
-            class="text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white align-middle"
-            >Home</a
-          >
-          <a
-            href="/profile"
-            class="text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white align-middle"
-            >Profile</a
-          >
-          <a
-            href="/articles"
-            class="text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white align-middle"
-            >Articles</a
-          >
-          <a
-            href="/contact"
-            class="text-2xl text-indigo-400 cursor-pointer hover:bg-teal-400 hover:text-white"
-            >Contact</a
-          >
-          <span class="text-slate-600 text-xs select-none"
-            >© Robert Shalders, 2025</span
-          >
-        </div>
-      </div>
+      <Navigation />
       <div
-        class="flex flex-col gap-y-8 justify-center items-center w-full p-4 lg:p-0 mb-16 lg:m-9"
+        class="flex justify-end sm:justify-center items-center h-full w-full border-b-4 sm:border-0 relative animate-fade-in"
       >
-        <div class="flex flex-col justify-center items-center gap-y-4">
-          Work In Progress
+        <!-- Content -->
+        <div
+          class="flex w-full h-full items-center justify-center relative font-roboto font-light select-none"
+        >
+          <div
+            class="flex flex-col gap-4 gap-y-12 py-3 absolute overflow-y-scroll h-full"
+          >
+            {
+              articles.length > 0 ? (
+                articles.map((entry) => {
+                  const date = new Date(entry.data.published);
+                  const day = String(date.getDate()).padStart(2, "0");
+                  const month = String(date.getMonth() + 1).padStart(2, "0");
+                  const year = date.getFullYear();
+
+                  return (
+                    <a href={`/${entry.collection}/${entry.data.slug}`}>
+                      <article class="flex w-full h-28 items-center px-3 gap-x-2 justify-between backdrop-blur-xs">
+                        <div class="w-20 h-20 overflow-hidden rounded-sm">
+                          <img
+                            class="w-full h-full object-cover object-center saturate-0 contrast-150 brightness-75 shadow-[0_0_4px_#0ff8]"
+                            src={entry.data.image ?? "/fallback.jpg"}
+                            alt={entry.data.title}
+                          />
+                        </div>
+
+                        <div class="max-w-4/6 text-[0.7rem] text-neutral-300 font-mono tracking-tight">
+                          <p class="wrap-break-word leading-tight">
+                            <span class="font-bold text-cyan-300">
+                              AI//LOG:
+                            </span>
+                            {entry.data.title}
+                          </p>
+
+                          <p class="font-thin italic text-neutral-500 mt-1">
+                            <span class="flicker-a">{day}</span>
+                            <span class="flicker-b">·{month}·</span>
+                            <span class="flicker-c">{year}</span>
+                            <span class="flicker-b"> — </span>
+                            <span class="flicker-a">ARCHIVE</span>
+                            <span class="flicker-c"> NODE</span>
+                          </p>
+                        </div>
+                      </article>
+                    </a>
+                  );
+                })
+              ) : (
+                <div class="flex flex-col items-center justify-center w-full h-full text-neutral-400 text-center p-8">
+                  <h2 class="text-2xl font-bold mb-2 flicker-a">
+                    SYSTEM ALERT: CONTENT UNAVAILABLE
+                  </h2>
+                  <p class="text-sm flicker-b">
+                    No articles detected. Recalibration
+                    recommended.
+                  </p>
+                </div>
+              )
+            }
+          </div>
         </div>
+        <!-- Mobile Side Navigation -->
+        <Drawer tabText="Categories" side="right">
+          <ul
+            class="flex flex-col h-full justify-evenly items-center text-black text-xl"
+          >
+            <li>Newsletters</li>
+            <li>Projects</li>
+            <li>Resources</li>
+            <li>Tips & Tricks</li>
+          </ul>
+        </Drawer>
       </div>
     </div>
-    <div class="absolute animated-background -z-10 animate-shift inset-[-100%]">
+    <div class="absolute animated-background -z-10 animate-shift -inset-full">
     </div>
   </main>
 </BaseLayout>

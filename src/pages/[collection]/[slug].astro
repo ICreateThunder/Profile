@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import { COLLECTIONS, type CollectionName } from "../../types/content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Head from "../../components/Head.astro";
+import Prose from "../../components/Prose.astro";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const collection of COLLECTIONS) {
+    const entries = await getCollection(collection as CollectionName);
+
+    for (const entry of entries) {
+      paths.push({
+        params: {
+          collection,
+          slug: entry.data.slug,
+        },
+        props: {
+          entry,
+          collection,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { entry, collection } = Astro.props;
+const { title, description, published, image } = entry.data;
+
+const date = new Date(published);
+---
+
+<BaseLayout>
+  <Head
+    slot="head"
+    title="Shalders' Site"
+    siteName="Robert Shalders' Personal Site"
+    description="Robert is a seasoned solutions & software architect."
+  />
+  <main class="w-full flex justify-center">
+  <Prose>
+    <article>
+    <h1>{title}</h1>
+
+    {description && <p class="opacity-70">{description}</p>}
+
+    {image && (
+        <img src={image} alt={title} class="rounded-md my-4" />
+    )}
+
+    <p class="text-xs opacity-50">
+        Published: {date.toLocaleDateString()}
+    </p>
+
+    <section class="mt-6">
+        {entry.body}
+    </section>
+
+    <p class="mt-10 text-xs opacity-40">
+        Category: {collection}
+    </p>
+    </article>
+    </Prose>
+    </main>
+</BaseLayout>
