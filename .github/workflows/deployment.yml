@@ -1,6 +1,8 @@
 name: AWS Deployment
 on:
-  push
+  push:
+    branches:
+      - master  # Only trigger on pushes to main branch
 permissions:
   id-token: write
   contents: read

@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
 
+/* Fonts */
 @font-face {
   font-family: "Trivial";
   src: url("/fonts/Trivial-UltraLight.otf");
@@ -36,8 +39,10 @@
   font-weight: 900;
 }
 
+/* Custom theme */
 @theme {
   --font-trivial: "Trivial", sans-serif;
+  --font-roboto: "Roboto";
 
   --animate-fade-in: fade-in 1s ease-in-out;
   @keyframes fade-in {
@@ -68,6 +73,35 @@
       transform: translateX(-10%) translateY(-10%);
     }
   }
+
+  --animate-strobe: strobe 1250ms step-end infinite;
+  @keyframes strobe {
+    from,
+    to {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  --animate-cta-box-shadow: cta-box-shadow 350ms cubic-bezier(0.23, 1, 0.32, 1);
+  @keyframes cta-box-shadow {
+    0% {
+      box-shadow:
+        10px 10px rgba(0, 0, 0, 0),
+        -4px 4px 0px 0px oklch(91% 0.096 180.426),
+        -8px 8px 0px 0px oklch(95.3% 0.051 180.801);
+      transform: translateX(-140%) scale(3) rotate(45deg);
+    }
+    100% {
+      box-shadow:
+        10px 10px rgba(0, 0, 0, 0),
+        -6px 6px 0px 0px oklch(91% 0.096 180.426),
+        -12px 12px 0px 0px oklch(95.3% 0.051 180.801);
+      transform: translateX(0) scale(3) rotate(45deg);
+    }
+  }
 }
 
 /* Animations */
@@ -88,4 +122,138 @@
 .animated-background {
   background-image: url("/images/noise.png");
   opacity: 0.125;
+}
+
+/* Hero call to action hover animations */
+.cta {
+  transition: all 150ms ease-in-out;
+  box-shadow:
+    10px 10px rgba(0, 0, 0, 0),
+    -4px 4px 0px 0px oklch(91% 0.096 180.426),
+    -8px 8px 0px 0px oklch(95.3% 0.051 180.801);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.cta:hover {
+  color: black;
+  cursor: pointer;
+  box-shadow:
+    10px 10px rgba(0, 0, 0, 0),
+    -6px 6px 0px 0px oklch(91% 0.096 180.426),
+    -12px 12px 0px 0px oklch(95.3% 0.051 180.801);
+  border-color: oklch(78.9% 0.154 211.53);
+}
+
+.cta::before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform-origin: center;
+  transform: translateX(-1140%) scale(3) rotate(45deg);
+  background: linear-gradient(
+    to right,
+    oklch(78.9% 0.154 211.53),
+    oklch(78.9% 0.154 211.53),
+    oklch(85.5% 0.138 181.071)
+  );
+  display: flex;
+  transition: all 350ms cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: -1;
+}
+
+.cta:hover::before {
+  transform: translateX(0) rotate(45deg) scale(3);
+}
+
+/* Javascript */
+@custom-variant no-js (&:where(:not(.js, .js *)));
+
+@utility writing-* {
+  writing-mode: --value(
+    "horizontal-tb",
+    "vertical-lr",
+    "vertical-rl",
+    "sideways-lr",
+    "sideways-rl"
+  );
+}
+
+@keyframes crt-flicker-a {
+  0% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  20% {
+    opacity: 0.4;
+    transform: translateY(-1px);
+  }
+  35% {
+    opacity: 0.95;
+    transform: translateY(1px);
+  }
+  55% {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 0.85;
+    transform: translateY(-0.5px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
+@keyframes crt-flicker-b {
+  0% {
+    opacity: 0.8;
+  }
+  15% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.45;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+@keyframes crt-flicker-c {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.5;
+    transform: scale(1.01);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.99);
+  }
+  75% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.flicker-a {
+  animation: crt-flicker-a 2.2s infinite steps(2, end);
+}
+.flicker-b {
+  animation: crt-flicker-b 1.7s infinite steps(3, end);
+}
+.flicker-c {
+  animation: crt-flicker-c 2.9s infinite steps(2, end);
 }
