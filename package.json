@@ -6,13 +6,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.12",
-    "@astrojs/sitemap": "^3.6.0",
-    "@tailwindcss/vite": "^4.1.13",
-    "astro": "^5.13.9",
-    "tailwind": "^2.3.1"
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^5.18.0",
+    "astro-icon": "^1.1.5",
+    "tailwind": "^4.0.0"
+  },
+  "devDependencies": {
+    "@iconify-json/bi": "^1.2.7",
+    "@iconify-json/lsicon": "^1.2.5"
   }
 }
