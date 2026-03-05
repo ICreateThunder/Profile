@@ -20,12 +20,28 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: sessionrole
           aws-region: ${{ secrets.AWS_REGION }}
-      # Install NPM
-      - name: Install modules
-        run: npm ci
-      # Create production files/distribution
+      # Install Bun
+      - name: Install Bun
+        run: curl -fsSL https://bun.sh/install | bash
+      # Add Bun to PATH
+      - name: Add Bun to PATH
+        run: echo "$HOME/.bun/bin" >> $GITHUB_PATH
+      # Cache Bun dependencies
+      - name: Cache Bun dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.bun
+            .bun
+          key: bun-deps-${{ hashFiles('bun.lockb') }}
+          restore-keys: |
+            bun-deps-
+      # Install dependencies
+      - name: Install modules with Bun
+        run: bun install
+      # Build application
       - name: Build application
-        run: npm run build
+        run: bun run build
       # Update S3 Static Site Bucket
       - name: Deploy to S3
         run: aws s3 sync --delete ./dist/ s3://${{ secrets.AWS_BUCKET_NAME }}
