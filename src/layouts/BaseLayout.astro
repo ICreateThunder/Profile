@@ -2,8 +2,12 @@
 import "../styles/global.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="bg-black text-white font-trivial">
+  <script is:inline>
+    document.documentElement.classList.add("js");
+  </script>
+  <slot name="head" />
   <body>
     <slot />
   </body>
